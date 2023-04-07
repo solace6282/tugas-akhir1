@@ -12,6 +12,7 @@ import pickle
 
 
 def cmp_aspect(v1, v2):
+    # print(v1, v2)s
     if v1[0]['from']==v2[0]['from']:
         return v1[1]['from'] - v2[1]['from']
     return v1[0]['from'] - v2[0]['from']
@@ -57,6 +58,7 @@ class BartBPEABSAPipe(Pipe):
         self.mapping2targetid = {}
 
         for key, value in self.mapping.items():
+            # print(key, value)
             key_id = self.tokenizer.convert_tokens_to_ids(self.tokenizer.tokenize(value))
             assert len(key_id) == 1, value
             assert key_id[0] >= cur_num_tokens
@@ -127,7 +129,9 @@ class BartBPEABSAPipe(Pipe):
             word_bpes = [[self.tokenizer.bos_token_id]]
             for word in raw_words:
                 bpes = self.tokenizer.tokenize(word, add_prefix_space=True)
+                # print(bpes)
                 bpes = self.tokenizer.convert_tokens_to_ids(bpes)
+                # print(bpes)
                 word_bpes.append(bpes)
             word_bpes.append([self.tokenizer.eos_token_id])
 
@@ -136,6 +140,7 @@ class BartBPEABSAPipe(Pipe):
             target = [0]  # 特殊的开始
             target_spans = []
             _word_bpes = list(chain(*word_bpes))
+            # print(_word_bpes)
 
             aspects_opinions = [(a, o, h) for a, o, h in zip(ins['aspects'], ins['opinions'], ins['holders'])] # -- new code --
             if self.opinion_first:
@@ -194,6 +199,7 @@ class BartBPEABSAPipe(Pipe):
                 # _ = input()
                 target_spans[-1].append(self.mapping2targetid[aspects['Intensity']]+2)   # 前面有sos和eos
                 target_spans[-1] = tuple(target_spans[-1])
+                
             target.extend(list(chain(*target_spans)))
             target.append(1)  # append 1是由于特殊的eos
 
@@ -210,6 +216,7 @@ class BartBPEABSAPipe(Pipe):
         data_bundle.set_input('tgt_tokens', 'src_tokens', 'src_seq_len', 'tgt_seq_len')
         data_bundle.set_target('tgt_tokens', 'tgt_seq_len', 'target_span', "sent_id")
 
+        print(data_bundle)
         return data_bundle
 
     def process_from_file(self, paths, demo=False) -> DataBundle:
@@ -243,6 +250,7 @@ class ABSALoader(Loader):
             holders = ins['holder']
             assert len(aspects)==len(opinions)==len(holders)
             ins = Instance(sent_id = sent_id, text = text, raw_words=tokens, aspects=aspects, opinions=opinions, holders=holders)
+            # print(holders)
             ds.append(ins)
             if self.demo and len(ds)>30:
                 break
@@ -251,5 +259,6 @@ class ABSALoader(Loader):
 
 if __name__ == '__main__':
     data_bundle = BartBPEABSAPipe().process_from_file('pengb/16res')
+    print("sssssssssssssssssssssss")
     print(data_bundle)
 
