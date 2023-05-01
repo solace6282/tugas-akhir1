@@ -24,11 +24,12 @@ def cmp_opinion(v1, v2):
 
 
 class BartBPEABSAPipe(Pipe):
-    def __init__(self, tokenizer='facebook/bart-base', opinion_first=True, dataset = None):
+    def __init__(self, tokenizer='facebook/bart-base', opinion_first=True, dataset = "BARTABSA/final_data/opener_en/"):
         super(BartBPEABSAPipe, self).__init__()
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer)
         self.mapping = OrderedDict()
         
+        print(os.path.join(dataset, 'train_convert.json'))
         with open(os.path.join(dataset, 'train_convert.json'), 'r') as f:
             tmp_data = json.load(f)
         pol, inten = [], []
@@ -216,7 +217,8 @@ class BartBPEABSAPipe(Pipe):
         data_bundle.set_input('tgt_tokens', 'src_tokens', 'src_seq_len', 'tgt_seq_len')
         data_bundle.set_target('tgt_tokens', 'tgt_seq_len', 'target_span', "sent_id")
 
-        print(data_bundle)
+        print(data_bundle.datasets)
+        # print(data_bundle.vocabs)
         return data_bundle
 
     def process_from_file(self, paths, demo=False) -> DataBundle:
@@ -258,7 +260,7 @@ class ABSALoader(Loader):
 
 
 if __name__ == '__main__':
-    data_bundle = BartBPEABSAPipe().process_from_file('pengb/16res')
-    print("sssssssssssssssssssssss")
+    data_bundle = BartBPEABSAPipe().process_from_file('BARTABSA/final_data/opener_en/dev_convert.json')
+    # print("sssssssssssssssssssssss")
     print(data_bundle)
 
