@@ -9,7 +9,7 @@ warnings.filterwarnings('ignore')
 from data.pipe import BartBPEABSAPipe
 from peng.model.bart_absa import BartSeq2SeqModel
 
-from fastNLP import Trainer
+from fastNLP import Trainer, Tester
 from peng.model.metrics import Seq2SeqSpanMetric
 from peng.model.losses import Seq2SeqLoss
 from torch import optim
@@ -161,3 +161,7 @@ trainer = Trainer(train_data=data_bundle.get_dataset('train'), model=model, opti
                   test_sampler=SortedSampler('src_seq_len'), dev_batch_size=batch_size)
 
 trainer.train(load_best_model=False)
+
+print("This is test")
+
+# tester = Tester(model=model, data = ["Movie is amazing"], metrics='triple_f', batch_size=batch_size, num_workers=2)

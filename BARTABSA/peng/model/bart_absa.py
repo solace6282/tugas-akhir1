@@ -9,7 +9,7 @@ from torch import nn
 import math
 import tensorflow as tf
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Embedding, LSTM, Bidirectional, ConvLSTM1D, TimeDistributed, Reshape
+from keras.layers import *
 
 # def bilstm(embed):
 #     model = Sequential()
@@ -258,16 +258,19 @@ class BartSeq2SeqModel(Seq2SeqModel):
         # potential improvement here
         embed_tf = tf.constant(model.encoder.embed_tokens.weight.data.numpy(), dtype=tf.float32)
         embed_dec = tf.constant(model.decoder.embed_tokens.weight.data.numpy(), dtype=tf.float32)
-        print(embed_tf)
+        # print(embed_tf)
         embed_cnt, embed_len = embed_tf.get_shape()
-        print(embed_tf.get_shape())
-        print(embed_dec.get_shape())
+        # print(embed_tf.get_shape())
+        # print(embed_dec.get_shape())
         model_bilstm = Sequential()
-        model_bilstm.add(Reshape((-1, 1, embed_len), input_shape=(None, embed_len)))
-        model_bilstm.add(TimeDistributed(Dense(embed_len), input_shape=(None, None, embed_len)))
+        # model_bilstm.add(Normalization(axis=0))
+        # model_bilstm.add(Reshape((-1, 1, embed_len), input_shape=(None, embed_len)))
+        # model_bilstm.add(TimeDistributed(Dense(embed_len), input_shape=(None, None, embed_len)))
         model_bilstm.add(Reshape((-1, embed_len)))
         model_bilstm.add(Bidirectional(LSTM(embed_len, return_sequences=True), input_shape=(embed_len,)))
+        model_bilstm.add(Dropout(0.1))
         model_bilstm.add(Dense(embed_len))
+        model_bilstm.add(BatchNormalization())
         model_bilstm.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
         embedded_enc = torch.squeeze(torch.FloatTensor(model_bilstm.predict(embed_tf)))
@@ -280,6 +283,8 @@ class BartSeq2SeqModel(Seq2SeqModel):
         # print(type(torch.FloatTensor(model_bilstm.predict(embed_tf))))
         # print(model.decoder.embed_tokens.weight.data)
 
+        # em invalid teh naon
+        # free google colab+ use
         model.encoder.embed_tokens.weight.data = embedded_enc
         model.decoder.embed_tokens.weight.data = embedded_dec
 
