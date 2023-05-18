@@ -240,7 +240,7 @@ class BartSeq2SeqModel(Seq2SeqModel):
         if use_recur_pos:
             decoder.set_position_embedding(label_ids[0], tag_first)
 
-        _tokenizer = BartTokenizer.from_pretrained("facebook/bart-large")
+        _tokenizer = BartTokenizer.from_pretrained(bart_model)
         for token in tokenizer.unique_no_split_tokens:
             if token[:2] == '<<':
                 index = tokenizer.convert_tokens_to_ids(tokenizer.tokenize(token))
