@@ -240,7 +240,7 @@ class BartSeq2SeqModel(Seq2SeqModel):
         if use_recur_pos:
             decoder.set_position_embedding(label_ids[0], tag_first)
 
-        _tokenizer = BartTokenizer.from_pretrained(bart_model)
+        _tokenizer = BartTokenizer.from_pretrained("facebook/bart-large")
         for token in tokenizer.unique_no_split_tokens:
             if token[:2] == '<<':
                 index = tokenizer.convert_tokens_to_ids(tokenizer.tokenize(token))
@@ -274,7 +274,7 @@ class BartSeq2SeqModel(Seq2SeqModel):
         model_bilstm.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
         embedded_enc = torch.squeeze(torch.FloatTensor(model_bilstm.predict(embed_tf)))
-        embedded_dec = torch.squeeze(torch.FloatTensor(model_bilstm.predict(embed_dec)))
+        # embedded_dec = torch.squeeze(torch.FloatTensor(model_bilstm.predict(embed_dec)))
         # print(model.decoder.embed_tokens.weight.data.shape)
         # print(embedded_enc.shape, embedded_dec.shape)
         # embedded_enc = torch.FloatTensor(model_bilstm.predict(embed_tf)).shape
@@ -286,7 +286,7 @@ class BartSeq2SeqModel(Seq2SeqModel):
         # em invalid teh naon
         # free google colab+ use
         model.encoder.embed_tokens.weight.data = embedded_enc
-        model.decoder.embed_tokens.weight.data = embedded_dec
+        # model.decoder.embed_tokens.weight.data = embedded_dec
 
         encoder = FBartEncoder(encoder)
         label_ids = sorted(label_ids)
