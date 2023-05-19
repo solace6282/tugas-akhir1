@@ -1,6 +1,6 @@
 import torch
-from .modeling_bart import BartEncoder, BartDecoder, BartModel
-from transformers import BartTokenizer
+from .modeling_bart import BartEncoder, BartDecoder
+from transformers import BartTokenizer, BartModel
 from fastNLP import seq_len_to_mask
 from fastNLP.modules import Seq2SeqEncoder, Seq2SeqDecoder, State
 import torch.nn.functional as F
@@ -26,7 +26,7 @@ from keras.layers import *
 class FBartEncoder(Seq2SeqEncoder):
     def __init__(self, encoder):
         super().__init__()
-        assert isinstance(encoder, BartEncoder)
+        # assert isinstance(encoder, BartEncoder)
         self.bart_encoder = encoder
 
     def forward(self, src_tokens, src_seq_len):
@@ -41,7 +41,7 @@ class FBartEncoder(Seq2SeqEncoder):
 class FBartDecoder(Seq2SeqDecoder):
     def __init__(self, decoder, pad_token_id, label_ids, use_encoder_mlp=True):
         super().__init__()
-        assert isinstance(decoder, BartDecoder)
+        # assert isinstance(decoder, BartDecoder)
         self.decoder = decoder
         causal_mask = torch.zeros(512, 512).fill_(float('-inf'))
         causal_mask = causal_mask.triu(diagonal=1)
@@ -256,36 +256,36 @@ class BartSeq2SeqModel(Seq2SeqModel):
                 embed /= len(indexes)
                 model.decoder.embed_tokens.weight.data[index] = embed
         # potential improvement here
-        embed_tf = tf.constant(model.encoder.embed_tokens.weight.data.numpy(), dtype=tf.float32)
-        embed_dec = tf.constant(model.decoder.embed_tokens.weight.data.numpy(), dtype=tf.float32)
-        # print(embed_tf)
-        embed_cnt, embed_len = embed_tf.get_shape()
-        # print(embed_tf.get_shape())
-        # print(embed_dec.get_shape())
-        model_bilstm = Sequential()
-        # model_bilstm.add(Normalization(axis=0))
-        # model_bilstm.add(Reshape((-1, 1, embed_len), input_shape=(None, embed_len)))
-        # model_bilstm.add(TimeDistributed(Dense(embed_len), input_shape=(None, None, embed_len)))
-        model_bilstm.add(Reshape((-1, embed_len)))
-        model_bilstm.add(Bidirectional(LSTM(embed_len, return_sequences=True), input_shape=(embed_len,)))
-        model_bilstm.add(Dropout(0.1))
-        model_bilstm.add(Dense(embed_len))
-        model_bilstm.add(BatchNormalization())
-        model_bilstm.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+        # embed_tf = tf.constant(model.encoder.embed_tokens.weight.data.numpy(), dtype=tf.float32)
+        # embed_dec = tf.constant(model.decoder.embed_tokens.weight.data.numpy(), dtype=tf.float32)
+        # # print(embed_tf)
+        # embed_cnt, embed_len = embed_tf.get_shape()
+        # # print(embed_tf.get_shape())
+        # # print(embed_dec.get_shape())
+        # model_bilstm = Sequential()
+        # # model_bilstm.add(Normalization(axis=0))
+        # # model_bilstm.add(Reshape((-1, 1, embed_len), input_shape=(None, embed_len)))
+        # # model_bilstm.add(TimeDistributed(Dense(embed_len), input_shape=(None, None, embed_len)))
+        # model_bilstm.add(Reshape((-1, embed_len)))
+        # model_bilstm.add(Bidirectional(LSTM(embed_len, return_sequences=True), input_shape=(embed_len,)))
+        # model_bilstm.add(Dropout(0.1))
+        # model_bilstm.add(Dense(embed_len))
+        # model_bilstm.add(BatchNormalization())
+        # model_bilstm.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-        embedded_enc = torch.squeeze(torch.FloatTensor(model_bilstm.predict(embed_tf)))
-        # embedded_dec = torch.squeeze(torch.FloatTensor(model_bilstm.predict(embed_dec)))
-        # print(model.decoder.embed_tokens.weight.data.shape)
-        # print(embedded_enc.shape, embedded_dec.shape)
-        # embedded_enc = torch.FloatTensor(model_bilstm.predict(embed_tf)).shape
-        # embedded_dec = torch.FloatTensor(model_bilstm.predict(embed_dec)).shape
-        # print(type(torch.mul(model.encoder.embed_tokens.weight.data, 2)))
-        # print(type(torch.FloatTensor(model_bilstm.predict(embed_tf))))
-        # print(model.decoder.embed_tokens.weight.data)
+        # embedded_enc = torch.squeeze(torch.FloatTensor(model_bilstm.predict(embed_tf)))
+        # # embedded_dec = torch.squeeze(torch.FloatTensor(model_bilstm.predict(embed_dec)))
+        # # print(model.decoder.embed_tokens.weight.data.shape)
+        # # print(embedded_enc.shape, embedded_dec.shape)
+        # # embedded_enc = torch.FloatTensor(model_bilstm.predict(embed_tf)).shape
+        # # embedded_dec = torch.FloatTensor(model_bilstm.predict(embed_dec)).shape
+        # # print(type(torch.mul(model.encoder.embed_tokens.weight.data, 2)))
+        # # print(type(torch.FloatTensor(model_bilstm.predict(embed_tf))))
+        # # print(model.decoder.embed_tokens.weight.data)
 
-        # em invalid teh naon
-        # free google colab+ use
-        model.encoder.embed_tokens.weight.data = embedded_enc
+        # # em invalid teh naon
+        # # free google colab+ use
+        # model.encoder.embed_tokens.weight.data = embedded_enc
         # model.decoder.embed_tokens.weight.data = embedded_dec
 
         encoder = FBartEncoder(encoder)
