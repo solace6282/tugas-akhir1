@@ -1,6 +1,6 @@
 import torch
 from .modeling_bart import BartEncoder, BartDecoder
-from transformers import BartTokenizer, BartModel
+from transformers import BartTokenizer, BartModel, BertModel
 from fastNLP import seq_len_to_mask
 from fastNLP.modules import Seq2SeqEncoder, Seq2SeqDecoder, State
 import torch.nn.functional as F
@@ -27,9 +27,11 @@ class BiLSTM(nn.Module):
     def __init__(self, input_size, hidden_size):
         super(BiLSTM, self).__init__()
         self.lstm = nn.LSTM(input_size, hidden_size, bidirectional=True)
+        self.dropout = nn.Dropout(0.5)
         
     def forward(self, x):
         output, _ = self.lstm(x)
+        output = self.dropout(output)
         return output
 
 class FBartEncoder(Seq2SeqEncoder):
@@ -37,15 +39,22 @@ class FBartEncoder(Seq2SeqEncoder):
         super().__init__()
         self.bart_encoder = encoder
         self.bilstm = bilstm
+        self.bert_encoder = BertModel.from_pretrained("bert-base-uncased")
 
     def forward(self, src_tokens, src_seq_len):
         mask = seq_len_to_mask(src_seq_len, max_len=src_tokens.size(1))
+        # print(src_tokens.shape)
+        # src_tokens = src_tokens.unsqueeze(0)
         dict = self.bart_encoder(input_ids=src_tokens, attention_mask=mask, return_dict=True,
                                  output_hidden_states=True)
         encoder_outputs = dict.last_hidden_state
         
         # Apply BiLSTM to the encoder outputs
-        encoder_outputs = self.bilstm(encoder_outputs)
+        bilstm_outputs = self.bilstm(encoder_outputs)
+        # print(encoder_outputs.shape)
+        
+
+        encoder_outputs = encoder_outputs + bilstm_outputs
         
         hidden_states = dict.hidden_states
         return encoder_outputs, mask, hidden_states
