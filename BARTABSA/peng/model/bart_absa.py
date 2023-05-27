@@ -8,8 +8,6 @@ from fastNLP.models import Seq2SeqModel
 from torch import nn
 import math
 import tensorflow as tf
-from keras.models import Sequential
-from keras.layers import *
 
 # def bilstm(embed):
 #     model = Sequential()
@@ -39,21 +37,13 @@ class FBartEncoder(Seq2SeqEncoder):
         super().__init__()
         self.bart_encoder = encoder
         self.bilstm = bilstm
-        self.bert_encoder = BertModel.from_pretrained("bert-base-uncased")
 
     def forward(self, src_tokens, src_seq_len):
         mask = seq_len_to_mask(src_seq_len, max_len=src_tokens.size(1))
-        # print(src_tokens.shape)
-        # src_tokens = src_tokens.unsqueeze(0)
         dict = self.bart_encoder(input_ids=src_tokens, attention_mask=mask, return_dict=True,
                                  output_hidden_states=True)
         encoder_outputs = dict.last_hidden_state
-        
-        # Apply BiLSTM to the encoder outputs
         bilstm_outputs = self.bilstm(encoder_outputs)
-        # print(encoder_outputs.shape)
-        
-
         encoder_outputs = encoder_outputs + bilstm_outputs
         
         hidden_states = dict.hidden_states
@@ -61,7 +51,7 @@ class FBartEncoder(Seq2SeqEncoder):
 
 
 class FBartDecoder(Seq2SeqDecoder):
-    def __init__(self, decoder, pad_token_id, label_ids, use_encoder_mlp=True):
+    def __init__(self, decoder, pad_token_id, label_ids, bilstm, use_encoder_mlp=True):
         super().__init__()
         # assert isinstance(decoder, BartDecoder)
         self.decoder = decoder
@@ -71,6 +61,7 @@ class FBartDecoder(Seq2SeqDecoder):
         self.pad_token_id = pad_token_id
         self.label_start_id = label_ids[0]
         self.label_end_id = label_ids[-1]+1
+        self.bilstm = bilstm
         # 0th position is <s>, 1st position is </s>
         mapping = torch.LongTensor([0, 2]+sorted(label_ids, reverse=False))
         self.register_buffer('mapping', mapping)
@@ -128,6 +119,8 @@ class FBartDecoder(Seq2SeqDecoder):
                                 use_cache=True,
                                 return_dict=True)
         hidden_state = dict.last_hidden_state  # bsz x max_len x hidden_size
+        bilstm_outputs = self.bilstm(hidden_state)
+        hidden_state = hidden_state + bilstm_outputs
         if not self.training:
             state.past_key_values = dict.past_key_values
 
@@ -166,8 +159,8 @@ class FBartDecoder(Seq2SeqDecoder):
 
 class CaGFBartDecoder(FBartDecoder):
     # Copy and generate,
-    def __init__(self, decoder, pad_token_id, label_ids, use_encoder_mlp=False):
-        super().__init__(decoder, pad_token_id, label_ids, use_encoder_mlp=use_encoder_mlp)
+    def __init__(self, decoder, pad_token_id, label_ids, bilstm, use_encoder_mlp=False):
+        super().__init__(decoder, pad_token_id, label_ids, bilstm, use_encoder_mlp=use_encoder_mlp)
 
     def forward(self, tokens, state):
         encoder_outputs = state.encoder_output
@@ -212,6 +205,8 @@ class CaGFBartDecoder(FBartDecoder):
                                 use_cache=True,
                                 return_dict=True)
         hidden_state = dict.last_hidden_state  # bsz x max_len x hidden_size
+        bilstm_outputs = self.bilstm(hidden_state)
+        hidden_state = hidden_state + bilstm_outputs
         if not self.training:
             state.past_key_values = dict.past_key_values
 
@@ -317,10 +312,10 @@ class BartSeq2SeqModel(Seq2SeqModel):
         label_ids = sorted(label_ids)
         if decoder_type is None:
             assert copy_gate is False
-            decoder = FBartDecoder(decoder, pad_token_id=tokenizer.pad_token_id, label_ids=label_ids)
+            decoder = FBartDecoder(decoder, pad_token_id=tokenizer.pad_token_id, label_ids=label_ids, bilstm=bilstm)
         elif decoder_type =='avg_score':
             decoder = CaGFBartDecoder(decoder, pad_token_id=tokenizer.pad_token_id, label_ids=label_ids,
-                                              use_encoder_mlp=use_encoder_mlp)
+                                              use_encoder_mlp=use_encoder_mlp, bilstm=bilstm)
         else:
             raise RuntimeError("Unsupported feature.")
 
