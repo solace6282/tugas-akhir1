@@ -217,7 +217,7 @@ class BartBPEABSAPipe(Pipe):
         data_bundle.set_input('tgt_tokens', 'src_tokens', 'src_seq_len', 'tgt_seq_len')
         data_bundle.set_target('tgt_tokens', 'tgt_seq_len', 'target_span', "sent_id")
 
-        print(data_bundle.datasets)
+        # print(data_bundle.datasets)
         # print(data_bundle.vocabs)
         return data_bundle
 

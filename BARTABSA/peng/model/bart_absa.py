@@ -1,6 +1,6 @@
 import torch
-from .modeling_bart import BartEncoder, BartDecoder
-from transformers import BartTokenizer, BartModel, BertModel
+from .modeling_bart import BartEncoder, BartModel,BartDecoder
+from transformers import BartTokenizer,  BertModel
 from fastNLP import seq_len_to_mask
 from fastNLP.modules import Seq2SeqEncoder, Seq2SeqDecoder, State
 import torch.nn.functional as F
@@ -119,8 +119,8 @@ class FBartDecoder(Seq2SeqDecoder):
                                 use_cache=True,
                                 return_dict=True)
         hidden_state = dict.last_hidden_state  # bsz x max_len x hidden_size
-        bilstm_outputs = self.bilstm(hidden_state)
-        hidden_state = hidden_state + bilstm_outputs
+        # bilstm_outputs = self.bilstm(hidden_state)
+        # hidden_state = hidden_state + bilstm_outputs
         if not self.training:
             state.past_key_values = dict.past_key_values
 
@@ -205,8 +205,8 @@ class CaGFBartDecoder(FBartDecoder):
                                 use_cache=True,
                                 return_dict=True)
         hidden_state = dict.last_hidden_state  # bsz x max_len x hidden_size
-        bilstm_outputs = self.bilstm(hidden_state)
-        hidden_state = hidden_state + bilstm_outputs
+        # bilstm_outputs = self.bilstm(hidden_state)
+        # hidden_state = hidden_state + bilstm_outputs
         if not self.training:
             state.past_key_values = dict.past_key_values
 
