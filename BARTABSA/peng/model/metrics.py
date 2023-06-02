@@ -44,11 +44,11 @@ class Seq2SeqSpanMetric(MetricBase):
 
         start_idx = sent.find(phrase) - len(self.null_token)
         if start_idx + len(self.null_token) == -1:
-            print()
-            print(sent)
-            print(phrase)
-            print(start, end, len(self.mapping2id), self.mapping2id)
-            print(tokenized_sentence)
+            # print()
+            # print(sent)
+            # print(phrase)
+            # print(start, end, len(self.mapping2id), self.mapping2id)
+            # print(tokenized_sentence)
             return [], []
         # assert(start_idx+len(self.null_token)!=-1)
         end_idx = start_idx+len(phrase)
