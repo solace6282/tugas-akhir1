@@ -305,8 +305,8 @@ class BartSeq2SeqModel(Seq2SeqModel):
         # model.encoder.embed_tokens.weight.data = embedded_enc
         # model.decoder.embed_tokens.weight.data = embedded_dec
 
-        input_size = 768
-        hidden_size = 384
+        input_size = int(model.get_input_embeddings().embedding_dim)
+        hidden_size = int(input_size/2)
         bilstm = BiLSTM(input_size, hidden_size)
         encoder = FBartEncoder(encoder, bilstm)
         label_ids = sorted(label_ids)
