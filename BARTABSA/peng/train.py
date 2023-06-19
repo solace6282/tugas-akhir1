@@ -155,7 +155,7 @@ trainer = Trainer(train_data=data_bundle.get_dataset('train'), model=model, opti
                   loss=Seq2SeqLoss(),
                   batch_size=batch_size, sampler=sampler, drop_last=False, update_every=1,
                   num_workers=2, n_epochs=n_epochs, print_every=1,
-                  dev_data=data_bundle.get_dataset('dev'), metrics=metric, metric_key='triple_f',
+                  dev_data=data_bundle.get_dataset('dev'), metrics=metric, metric_key='em',
                   validate_every=-1, save_path=model_path, use_tqdm=True, device=device,
                   callbacks=callbacks, check_code_level=0, test_use_tqdm=False,
                   test_sampler=SortedSampler('src_seq_len'), dev_batch_size=batch_size)
@@ -164,4 +164,5 @@ trainer.train(load_best_model=False)
 
 print("This is test")
 
-# tester = Tester(model=model, data = ["Movie is amazing"], metrics='triple_f', batch_size=batch_size, num_workers=2)
+tester = Tester(model=model, data = data_bundle.get_dataset('test'), metrics='em', batch_size=batch_size, num_workers=2
+                , device=device, use_tqdm=True)
