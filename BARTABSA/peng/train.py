@@ -164,5 +164,5 @@ trainer.train(load_best_model=False)
 
 print("This is test")
 
-tester = Tester(model=model, data = data_bundle.get_dataset('test'), metrics='em', batch_size=batch_size, num_workers=2
-                , device=device, use_tqdm=True)
+# tester = Tester(model=model, data = data_bundle.get_dataset('test'), metrics=metric, batch_size=batch_size, num_workers=2
+#                 , device=device, use_tqdm=True)
