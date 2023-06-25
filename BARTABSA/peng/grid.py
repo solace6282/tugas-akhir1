@@ -1,5 +1,6 @@
 from model.modeling_bart import BartModel
 from transformers import AutoTokenizer
+from sklearn.model_selection import GridSearchCV
 
 tokenizer = AutoTokenizer.from_pretrained('facebook/bart-base')
 tokens = tokenizer.batch_encode_plus(texts, padding=True, truncation=True, return_tensors='pt')
