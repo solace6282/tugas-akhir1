@@ -1,0 +1,439 @@
+{
+        "sent_id": "opener_en/kaf/hotel/english00143_a1ec3eba7f3fa0420d4d2fed1bca5701-3",
+        "text": "We tried NOT to eat in the buffet restaurant as the quality and choice of food was very limited , The reception area was clean and the lobby staff were very helpful , The house \u00b7 keeping was basic but not impressive , The pool , bar & beach areas were kept tidy and the outdoor staff were pleasant. there were quite a lot of Russian guests there ( approx 85 % ) with a minority of British , French , swedish , German , Norwiegen & Egyptian .",
+        "opinions": [
+            {
+                "Source": [
+                    [],
+                    []
+                ],
+                "Target": [
+                    [
+                        "The reception area"
+                    ],
+                    [
+                        "98:116"
+                    ]
+                ],
+                "Polar_expression": [
+                    [
+                        "clean"
+                    ],
+                    [
+                        "121:126"
+                    ]
+                ],
+                "Polarity": "Positive",
+                "Intensity": "Standard"
+            },
+            {
+                "Source": [
+                    [],
+                    []
+                ],
+                "Target": [
+                    [
+                        "beach areas"
+                    ],
+                    [
+                        "235:246"
+                    ]
+                ],
+                "Polar_expression": [
+                    [
+                        "kept tidy"
+                    ],
+                    [
+                        "252:261"
+                    ]
+                ],
+                "Polarity": "Positive",
+                "Intensity": "Standard"
+            },
+            {
+                "Source": [
+                    [],
+                    []
+                ],
+                "Target": [
+                    [
+                        "the outdoor staff"
+                    ],
+                    [
+                        "266:283"
+                    ]
+                ],
+                "Polar_expression": [
+                    [
+                        "not impressive"
+                    ],
+                    [
+                        "201:215"
+                    ]
+                ],
+                "Polarity": "Negative",
+                "Intensity": "Standard"
+            },
+            {
+                "Source": [
+                    [],
+                    []
+                ],
+                "Target": [
+                    [
+                        "the lobby staff"
+                    ],
+                    [
+                        "131:146"
+                    ]
+                ],
+                "Polar_expression": [
+                    [
+                        "very helpful"
+                    ],
+                    [
+                        "152:164"
+                    ]
+                ],
+                "Polarity": "Positive",
+                "Intensity": "Strong"
+            }
+        ]
+    }
+    {
+        "sent_id": "opener_en/kaf/hotel/english00143_a1ec3eba7f3fa0420d4d2fed1bca5701-3",
+        "text": "We tried NOT to eat in the buffet restaurant as the quality and choice of food was very limited , The reception area was clean and the lobby staff were very helpful , The house · keeping was basic but not impressive , The pool , bar & beach areas were kept tidy and the outdoor staff were pleasant. there were quite a lot of Russian guests there ( approx 85 % ) with a minority of British , French , swedish , German , Norwiegen & Egyptian .",
+        "opinions": [
+            {
+                "Source": [
+                    [],
+                    []
+                ],
+                "Target": [
+                    [
+                        "The reception area"
+                    ],
+                    [
+                        "98:116"
+                    ]
+                ],
+                "Polar_expression": [
+                    [
+                        "clean"
+                    ],
+                    [
+                        "121:126"
+                    ]
+                ],
+                "Polarity": "Positive",
+                "Intensity": "Standard"
+            },
+            {
+                "Source": [
+                    [
+                        "We"
+                    ],
+                    [
+                        "0:2"
+                    ]
+                ],
+                "Target": [
+                    [],
+                    []
+                ],
+                "Polar_expression": [
+                    [
+                        "NOT to eat in the buffet restaurant"
+                    ],
+                    [
+                        "9:44"
+                    ]
+                ],
+                "Polarity": "Negative",
+                "Intensity": "Standard"
+            },
+            {
+                "Source": [
+                    [],
+                    []
+                ],
+                "Target": [
+                    [
+                        "the outdoor staff"
+                    ],
+                    [
+                        "266:283"
+                    ]
+                ],
+                "Polar_expression": [
+                    [
+                        "pleasant."
+                    ],
+                    [
+                        "289:298"
+                    ]
+                ],
+                "Polarity": "Positive",
+                "Intensity": "Standard"
+            },
+            {
+                "Source": [
+                    [],
+                    []
+                ],
+                "Target": [
+                    [
+                        "choice of food"
+                    ],
+                    [
+                        "64:78"
+                    ]
+                ],
+                "Polar_expression": [
+                    [
+                        "very limited"
+                    ],
+                    [
+                        "83:95"
+                    ]
+                ],
+                "Polarity": "Negative",
+                "Intensity": "Strong"
+            },
+            {
+                "Source": [
+                    [],
+                    []
+                ],
+                "Target": [
+                    [
+                        "the quality"
+                    ],
+                    [
+                        "48:59"
+                    ]
+                ],
+                "Polar_expression": [
+                    [
+                        "very limited"
+                    ],
+                    [
+                        "83:95"
+                    ]
+                ],
+                "Polarity": "Negative",
+                "Intensity": "Strong"
+            },
+            {
+                "Source": [
+                    [],
+                    []
+                ],
+                "Target": [
+                    [
+                        "the lobby staff"
+                    ],
+                    [
+                        "131:146"
+                    ]
+                ],
+                "Polar_expression": [
+                    [
+                        "very helpful"
+                    ],
+                    [
+                        "152:164"
+                    ]
+                ],
+                "Polarity": "Positive",
+                "Intensity": "Strong"
+            },
+            {
+                "Source": [
+                    [],
+                    []
+                ],
+                "Target": [
+                    [
+                        "bar"
+                    ],
+                    [
+                        "229:232"
+                    ]
+                ],
+                "Polar_expression": [
+                    [
+                        "were kept tidy"
+                    ],
+                    [
+                        "247:261"
+                    ]
+                ],
+                "Polarity": "Positive",
+                "Intensity": "Standard"
+            },
+            {
+                "Source": [
+                    [],
+                    []
+                ],
+                "Target": [
+                    [
+                        "The pool"
+                    ],
+                    [
+                        "218:226"
+                    ]
+                ],
+                "Polar_expression": [
+                    [
+                        "were kept tidy"
+                    ],
+                    [
+                        "247:261"
+                    ]
+                ],
+                "Polarity": "Positive",
+                "Intensity": "Standard"
+            },
+            {
+                "Source": [
+                    [],
+                    []
+                ],
+                "Target": [
+                    [
+                        "beach areas"
+                    ],
+                    [
+                        "235:246"
+                    ]
+                ],
+                "Polar_expression": [
+                    [
+                        "were kept tidy"
+                    ],
+                    [
+                        "247:261"
+                    ]
+                ],
+                "Polarity": "Positive",
+                "Intensity": "Standard"
+            },
+            {
+                "Source": [
+                    [],
+                    []
+                ],
+                "Target": [
+                    [
+                        "The house · keeping"
+                    ],
+                    [
+                        "167:186"
+                    ]
+                ],
+                "Polar_expression": [
+                    [
+                        "basic"
+                    ],
+                    [
+                        "191:196"
+                    ]
+                ],
+                "Polarity": "Negative",
+                "Intensity": "Standard"
+            },
+            {
+                "Source": [
+                    [],
+                    []
+                ],
+                "Target": [
+                    [
+                        "The house · keeping"
+                    ],
+                    [
+                        "167:186"
+                    ]
+                ],
+                "Polar_expression": [
+                    [
+                        "not impressive"
+                    ],
+                    [
+                        "201:215"
+                    ]
+                ],
+                "Polarity": "Negative",
+                "Intensity": "Standard"
+            }
+        ]
+    }
+
+======================================================================================
+
+{
+        "sent_id": "University_of_Phoenix_Online_34_11-18-2007-8",
+        "text": "Do you think UoP is in it for the joy ?",
+        "opinions": [
+            {
+                "Source": [
+                    [
+                        "you"
+                    ],
+                    [
+                        "3:6"
+                    ]
+                ],
+                "Target": [
+                    [
+                        "UoP"
+                    ],
+                    [
+                        "13:16"
+                    ]
+                ],
+                "Polar_expression": [
+                    [
+                        "think"
+                    ],
+                    [
+                        "7:12"
+                    ]
+                ],
+                "Polarity": "Neutral",
+                "Intensity": "Average"
+            }
+        ]
+    }
+{
+        "sent_id": "University_of_Phoenix_Online_34_11-18-2007-8",
+        "text": "Do you think UoP is in it for the joy ?",
+        "opinions": [
+            {
+                "Source": [
+                    [],
+                    []
+                ],
+                "Target": [
+                    [
+                        "U"
+                    ],
+                    [
+                        "13:14"
+                    ]
+                ],
+                "Polar_expression": [
+                    [
+                        "in it for the joy"
+                    ],
+                    [
+                        "20:37"
+                    ]
+                ],
+                "Polarity": "Positive",
+                "Intensity": "Strong"
+            }
+        ]
+    }
